@@ -1,0 +1,114 @@
+--------------------------------------------------------------------------------
+-- Metadata
+--------------------------------------------------------------------------------
+Invocation:       /usr/bin/cg_annotate cachegrind.out.60859
+Command:          ./matrixMultiply 1024
+Events recorded:  Ir
+Events shown:     Ir
+Event sort order: Ir
+Threshold:        0.1%
+Annotation:       on
+
+--------------------------------------------------------------------------------
+-- Summary
+--------------------------------------------------------------------------------
+Ir____________________ 
+
+5,930,426,713 (100.0%)  PROGRAM TOTALS
+
+--------------------------------------------------------------------------------
+-- File:function summary
+--------------------------------------------------------------------------------
+  Ir____________________________  file:function
+
+< 5,930,256,487 (100.0%, 100.0%)  /private/student/e/me/elasherme/Documents/arcsys2/TP9 - OpenMP/matrixMultiply.c:
+  5,920,275,492  (99.8%)            matmul
+      7,346,186   (0.1%)            checkMatrix
+
+--------------------------------------------------------------------------------
+-- Function:file summary
+--------------------------------------------------------------------------------
+  Ir___________________________  function:file
+
+> 5,920,275,492 (99.8%,  99.8%)  matmul:/private/student/e/me/elasherme/Documents/arcsys2/TP9 - OpenMP/matrixMultiply.c
+
+>     7,346,186  (0.1%, 100.0%)  checkMatrix:/private/student/e/me/elasherme/Documents/arcsys2/TP9 - OpenMP/matrixMultiply.c
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /private/student/e/me/elasherme/Documents/arcsys2/TP9 - OpenMP/matrixMultiply.c
+--------------------------------------------------------------------------------
+Ir___________________ 
+
+            .          #include <stdio.h>
+            .          #include <stdlib.h>
+            .          #include <omp.h>
+            .          
+            .          void checkMatrix(double *result, int size);
+            .          void matmul(double* A1, double* B1, double *result, int size);
+            .          void initMatrix(double* A1, double* B1, int size);
+            .          
+            8  (0.0%)  int main(int argc, char **argv){
+            .           int size = atoi(argv[1]);
+            .          
+            7  (0.0%)   double *A1 = malloc(size*size*sizeof(double));
+            3  (0.0%)   double *B1 = malloc(size*size*sizeof(double));
+            3  (0.0%)   double *result = malloc(size*size*sizeof(double));
+            .          
+            .           initMatrix(A1, B1, size);
+            5  (0.0%)   matmul(A1, B1, result, size);
+            3  (0.0%)   checkMatrix(result, size);
+            .           return 0;
+            9  (0.0%)  }
+            .          
+           25  (0.0%)  void matmul(double* A1, double* B1, double *result, int size){
+            .           int i;
+            .          
+        8,196  (0.0%)   for (i=0; i<size; i++){
+            .                   int j;
+    4,197,376  (0.1%)           for (j=0; j<size; j++){
+            .                           int k;
+            .                           double sum;
+    2,097,152  (0.0%)                   sum = 0;
+1,080,033,280 (18.2%)                   for (k=0; k<size; k++){
+4,832,890,880 (81.5%)                           sum += A1[i*size+k] * B1[k*size+j];
+            .                           }
+    1,048,576  (0.0%)                   result[i*size+j] = sum;
+            .                   }
+            .           }
+            7  (0.0%)  }
+            .          
+            .          void initMatrix(double* A1, double* B1, int size){
+            .          
+        6,155  (0.0%)   for (int i=0; i<size; i++){
+    1,577,984  (0.0%)           for (int j=0; j<size; j++){
+      526,344  (0.0%)                   A1[i*size+j] = 1;
+      524,288  (0.0%)                   B1[i*size+j] = 1;
+            .                   }
+            .           }
+            .          }
+            .          
+            .          
+        2,050  (0.0%)  void checkMatrix(double *result, int size){
+            .          
+        4,099  (0.0%)   for (int i=0; i<size; i++){
+    3,145,728  (0.1%)           for (int j=0; j<size; j++){
+    4,194,308  (0.1%)                   if (result[i*size+j] != size){
+            .                                   printf("Error : value of result[%d][%d] is %f instead of %d !\n", i, j , result[i*size+j], size);
+            .                                   return; 
+            .                           }
+            .                   }
+            .           }
+            .          
+            1  (0.0%)  }
+
+--------------------------------------------------------------------------------
+-- Annotation summary
+--------------------------------------------------------------------------------
+Ir____________________ 
+
+5,930,256,487 (100.0%)    annotated: files known & above threshold & readable, line numbers known
+            0             annotated: files known & above threshold & readable, line numbers unknown
+            0           unannotated: files known & above threshold & two or more non-identical
+            0           unannotated: files known & above threshold & unreadable 
+      170,051   (0.0%)  unannotated: files known & below threshold
+          175   (0.0%)  unannotated: files unknown
