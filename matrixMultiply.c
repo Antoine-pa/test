@@ -14,54 +14,27 @@ int main(int argc, char **argv){
 	double *result = malloc(size*size*sizeof(double));
 	
 	initMatrix(A1, B1, size);
-	matmul(A1, B1, result, size, 15);
+	matmul(A1, B1, result, size, 8);
 	checkMatrix(result, size);
 	return 0;
 }
 
 
 void matmul(double* A1, double* B1, double *result, int size, int N){
-	// int i;
-	
-	// for (i=0; i<size; i+=N){
-	// 	int j;
-		
-	// 	for (j=0; j<size; j+=N){
-	// 		int a;
-	// 		int Na = i+N < size ? N : i + N - size;
-	// 		for (a=0; a<Na; a++){
-	// 			int ia_size = (i+a)*size;
-	// 			int b;
-	// 			int Nb = j+N < size ? N : j + N - size;
-	// 			for (b=0; b<Nb; b++){
-	// 				int k;
-	// 				double sum;
-	// 				sum = 0;
-	// 				for (k=0; k<Na; k++){
-	// 					sum += A1[ia_size+j+k] * B1[(k+i)*size+j+b];
-	// 				}
-	// 				result[ia_size+j+b] += sum;
-	// 				result[(j+b)*size+i+a] += sum;
-	// 			}
-	// 		}
-	// 	}
-	// }
-	int i;
+	int i, j, k, a, b, c, sum, Na, Nb, Nk;
 	for (i = 0; i < size; i += N) {
-		int Na = i + N <= size ? N : size - i;
-		int j;
+		Na = i + N <= size ? N : size - i;
 		for (j = 0; j < size; j += N) {
-			int Nb = j + N <= size ? N : size - j;
-			int k;
+			Nb = j + N <= size ? N : size - j;
 			for (k = 0; k < size; k+=N) {
-				int Nk = k + N <= size ? N : size - k;
+				Nk = k + N <= size ? N : size - k;
 				// On fait le produit matriciel : A[i,k] * B[k, j] -> (Na * Nb) * (Nb * Na)
 				// Ensuite on fait : C[i, j] = ...
-				for (int a = 0; a < Na; a++) {
-					for (int b = 0; b < Nb; b++) {
+				for (a = 0; a < Na; a++) {
+					for (b = 0; b < Nb; b++) {
 						// On  fait le produit : C[i, j][a, b] = A[i, k][a, c] * B[k, j][c, b]
-						double sum = 0;
-						for (int c = 0; c < Nk; c++) {
+						sum = 0;
+						for (c = 0; c < Nk; c++) {
 							sum += A1[(i + a) * size + k + c] * B1[(k + c) * size + j + b];
 						}
 						result[(i + a) * size + j + b] += sum;
