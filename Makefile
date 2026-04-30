@@ -1,6 +1,6 @@
 CC      = gcc
-SRC     = matrixMultiply.c
-BIN     = matrixMultiply
+SRC     = fasti_fasti.c
+BIN     = fasti_fasti
 
 # ── max barbarism ──────────────────────────────────────────────
 #  -O3                  full optimisation pass
