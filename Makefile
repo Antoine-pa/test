@@ -1,6 +1,6 @@
 CC      = gcc
-SRC     = fasti_fasti.c
-BIN     = fasti_fasti
+SRC     = fast_blast.c
+BIN     = fast_blast
 
 # ── max barbarism ──────────────────────────────────────────────
 #  -O3                  full optimisation pass
@@ -14,14 +14,14 @@ BIN     = fasti_fasti
 #  -mavx2 -mfma         belt-and-suspenders SIMD flags
 CFLAGS  = -O3 -march=native -mtune=native \
           -ffast-math -funroll-loops -ftree-vectorize \
-          -flto -fopenmp -mavx2 -mfma -DNDEBUG
+          -flto -fopenmp -mavx2 -mfma -DNDEBUG \
 
 LDFLAGS = -flto -fopenmp -lm
 
 all: $(BIN)
 
 $(BIN): $(SRC)
-	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
+	$(CC) $(CFLAGS) $< -lopenblas -o $@ $(LDFLAGS)
 
 debug:
 	$(CC) -O0 -g -fopenmp $(SRC) -o $(BIN)
